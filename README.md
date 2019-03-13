@@ -63,7 +63,9 @@ git clone https://github.com/madars/zcash-docker.git
 docker build --tag=my-zcash-node zcash-docker
 ```
 
-You can choose the tag freely; similar for the directories in the next step. 
+You can choose the tag freely; similar for the directories in the next step.
+
+(If your build process fails due to a network error, you might be affected by a recent Debian sid/Ubuntu disco `iptables`/`docker` packaging bug. See below for a work-around.)
 
 3. Create local directories for storing persistent data, i.e., the Zcash blockchain and the Zcash system parameters:
 
@@ -99,3 +101,5 @@ Adding `--rm` makes container be deleted upon exit; that's safe for us as all st
 - The final node image weighs about 540MB, whereas the peak builder image uses about 4.8 GB of space. The latter can be safely deleted, e.g. by a `docker images -f "dangling=true" -q` + `docker rmi` combo.
 
 - This is the first `Dockerfile` I have written so I'm probably not doing things "the Docker way". Patches and comments welcome!
+
+- A recent [iptables change](https://github.com/docker/libnetwork/issues/2331) broke outgoing network connectivity for Docker in Ubuntu disco. Potential work-around is to use `iptables-legacy` system-wide (e.g. via `update-alternatives --set iptables /usr/sbin/iptables-legacy`) and to flush nftables ruleset potentially clobbered by `iptables-nft` rules (`nft flush ruleset`)
