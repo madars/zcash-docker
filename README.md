@@ -25,6 +25,7 @@ Next, add `runsc` runtime to your Docker configuration (see gVisor's [README](ht
 
 ```
 {
+    "default-runtime": "runsc",
     "runtimes": {
         "runsc": {
             "path": "/usr/local/bin/runsc",
@@ -35,6 +36,8 @@ Next, add `runsc` runtime to your Docker configuration (see gVisor's [README](ht
     }
 }
 ```
+
+The only way to instruct Docker to use gVisor in `docker build` process, is to have the `runsc` runtime be the default runtime (e.g., as in the config above). If this is not desired, you should remove the `"default-runtime": "runsc"` line. With `runsc` as the default runtime the `--runtime=runsc` option in the `docker run` commands is superfluous but you might want to keep it to avoid running without `runsc` by accident (for example, in case you change `dockerd` config for some reason).
 
 Finally, restart Docker daemon so that your changes take effect: `sudo systemctl restart docker`.
 
