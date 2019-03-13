@@ -1,4 +1,4 @@
-FROM alpine:edge as builder
+FROM alpine:latest as builder
 LABEL maintainer "Madars Virza <madars@mit.edu>"
 
 ENV ZCASH_VERSION=master
@@ -39,7 +39,7 @@ RUN ./zcutil/build.sh
 
 ###############################################################################
 
-FROM alpine:edge as node
+FROM alpine:latest as node
 LABEL maintainer "Madars Virza <madars@mit.edu>"
 
 # install dependencies for zcashd and zcash-fetch-params
