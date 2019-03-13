@@ -17,7 +17,8 @@ RUN apk --no-cache add --virtual .build-deps \
         patch \
         rust \
         cargo \
-        pkgconf
+        pkgconf \
+        linux-headers
 
 RUN adduser -D build
 
